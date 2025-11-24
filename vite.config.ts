@@ -4,16 +4,14 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   // Load env file based on `mode` in the current working directory.
-  // This allows Vercel environment variables to be read during build.
-  // Cast process to any to avoid TS errors in strict mode if @types/node isn't perfect
+  // Fix: Cast process to any to resolve TypeScript error "Property 'cwd' does not exist on type 'Process'"
   const env = loadEnv(mode, (process as any).cwd(), '');
 
   return {
     plugins: [react()],
     define: {
-      // This exposes process.env.API_KEY to the client-side code
-      'process.env.API_KEY': JSON.stringify(env.API_KEY),
-      'process.env': JSON.stringify(env) 
+      // Expose API_KEY to the client. We check for both API_KEY and GEMINI_API_KEY.
+      'process.env.API_KEY': JSON.stringify(env.API_KEY || env.GEMINI_API_KEY),
     },
     build: {
       outDir: 'dist',

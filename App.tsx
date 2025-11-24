@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { RobotControls } from './components/RobotControls';
 import { VideoFeed } from './components/VideoFeed';
@@ -26,7 +25,8 @@ const DEFAULT_SETTINGS: AppSettings = {
   plantAge: 'Vegetative Stage',
   location: { mode: 'manual', latitude: 20.5937, longitude: 78.9629, address: 'India' },
   fieldSizeAcres: 1.0,
-  demoMode: true // Enabled by default for web deployment
+  demoMode: true, // Enabled by default for web deployment
+  apiKey: '' // Default to empty string, service will check .env
 };
 
 const MOCK_INITIAL_SENSORS: SensorData = {
@@ -326,8 +326,15 @@ export default function App() {
     setStatus("🤖 " + t.analyzing); 
     setIsAnalyzing(true);
     try {
-      // apiKey argument removed
-      const result = await analyzePlantImage(pendingImage, sensorData, language, settings.plantType || 'Unknown', settings.plantAge || 'Unknown');
+      // Pass optional settings.apiKey
+      const result = await analyzePlantImage(
+          pendingImage, 
+          sensorData, 
+          language, 
+          settings.plantType || 'Unknown', 
+          settings.plantAge || 'Unknown',
+          settings.apiKey
+      );
       const resultWithTime = { ...result, timestamp: Date.now(), imageUrl: `data:image/jpeg;base64,${pendingImage}` };
       setAnalysisResult(resultWithTime);
       localStorage.setItem('kisanBotLastReport', JSON.stringify(resultWithTime));
@@ -344,7 +351,7 @@ export default function App() {
       setPendingImage(null); 
     } catch (error) { 
         setStatus("❌ Failed"); 
-        alert("Analysis failed. Try again.");
+        alert("Analysis failed. Please check your API Key in Settings.");
         console.error(error);
     } finally { 
         setIsAnalyzing(false); 
@@ -480,8 +487,8 @@ export default function App() {
           </div>
       </div>
 
-      <ChatAssistant isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} language={language} sensorData={sensorData} lastAnalysis={analysisResult} onLanguageChange={(lang) => setLanguage(lang)} />
-      <VoiceAssistant isOpen={isVoiceOpen} onClose={() => setIsVoiceOpen(false)} language={language} sensorData={sensorData} lastAnalysis={analysisResult} onLanguageChange={(lang) => setLanguage(lang)} onCommand={sendRobotCommand} />
+      <ChatAssistant isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} language={language} sensorData={sensorData} lastAnalysis={analysisResult} onLanguageChange={(lang) => setLanguage(lang)} apiKey={settings.apiKey} />
+      <VoiceAssistant isOpen={isVoiceOpen} onClose={() => setIsVoiceOpen(false)} language={language} sensorData={sensorData} lastAnalysis={analysisResult} onLanguageChange={(lang) => setLanguage(lang)} onCommand={sendRobotCommand} apiKey={settings.apiKey} />
       <ReportModal isOpen={isReportOpen} onClose={() => setIsReportOpen(false)} lastAnalysis={analysisResult} sensorData={sensorData} weather={weather} irrigation={irrigationAdvice} t={t} />
       <SettingsModal settings={settings} onSave={saveSettings} isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} t={t} />
       <AnalysisResultModalWrapper result={analysisResult} onClose={() => {}} />

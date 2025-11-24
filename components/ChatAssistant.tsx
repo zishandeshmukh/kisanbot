@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Language, SensorData, AnalysisResult, ChatMessage } from '../types';
 import { chatWithAgriBot } from '../services/geminiService';
@@ -11,9 +10,10 @@ interface Props {
   sensorData: SensorData;
   lastAnalysis: AnalysisResult | null;
   onLanguageChange: (lang: Language) => void;
+  apiKey?: string;
 }
 
-export const ChatAssistant: React.FC<Props> = ({ isOpen, onClose, language, sensorData, lastAnalysis, onLanguageChange }) => {
+export const ChatAssistant: React.FC<Props> = ({ isOpen, onClose, language, sensorData, lastAnalysis, onLanguageChange, apiKey }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([
     { id: '1', sender: 'bot', text: 'Namaste! How can I help you with your farm today?', timestamp: Date.now() }
   ]);
@@ -127,8 +127,7 @@ export const ChatAssistant: React.FC<Props> = ({ isOpen, onClose, language, sens
       setIsProcessing(true);
 
       try {
-          // No apiKey passed
-          const reply = await chatWithAgriBot(userText, language, sensorData, lastAnalysis);
+          const reply = await chatWithAgriBot(userText, language, sensorData, lastAnalysis, apiKey);
           
           const botMsg: ChatMessage = { id: (Date.now()+1).toString(), sender: 'bot', text: reply, timestamp: Date.now() };
           setMessages(prev => {
@@ -138,7 +137,7 @@ export const ChatAssistant: React.FC<Props> = ({ isOpen, onClose, language, sens
           speakText(reply);
       } catch (e) {
           console.error("Chat Error", e);
-          const errorMsg: ChatMessage = { id: (Date.now()+1).toString(), sender: 'bot', text: "Sorry, connection error.", timestamp: Date.now() };
+          const errorMsg: ChatMessage = { id: (Date.now()+1).toString(), sender: 'bot', text: "Sorry, connection error or invalid API Key.", timestamp: Date.now() };
           setMessages(prev => [...prev, errorMsg].slice(-20));
       } finally {
           setIsProcessing(false);

@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Language, SensorData, AnalysisResult, RobotCommand } from '../types';
 import { chatWithAgriBot } from '../services/geminiService';
@@ -12,9 +11,10 @@ interface Props {
   lastAnalysis: AnalysisResult | null;
   onLanguageChange: (lang: Language) => void;
   onCommand: (cmd: RobotCommand) => void;
+  apiKey?: string;
 }
 
-export const VoiceAssistant: React.FC<Props> = ({ isOpen, onClose, language, sensorData, lastAnalysis, onLanguageChange, onCommand }) => {
+export const VoiceAssistant: React.FC<Props> = ({ isOpen, onClose, language, sensorData, lastAnalysis, onLanguageChange, onCommand, apiKey }) => {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState('');
   const [response, setResponse] = useState('');
@@ -269,13 +269,12 @@ export const VoiceAssistant: React.FC<Props> = ({ isOpen, onClose, language, sen
     }
 
     try {
-      // No apiKey passed
-      const reply = await chatWithAgriBot(text, voiceLang, sensorData, lastAnalysis);
+      const reply = await chatWithAgriBot(text, voiceLang, sensorData, lastAnalysis, apiKey);
       setResponse(reply);
       speakResponse(reply);
     } catch (e) {
-      setResponse("Connection error. Please try again.");
-      speakResponse("Sorry, I faced a network error.");
+      setResponse("Connection error or API Key invalid. Please check settings.");
+      speakResponse("Sorry, I faced a network error or invalid API Key.");
     } finally {
       setIsProcessing(false);
     }

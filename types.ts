@@ -1,5 +1,4 @@
 
-
 export interface AnalysisResult {
   diseaseName: string;
   confidence: number;
@@ -58,6 +57,7 @@ export interface AppSettings {
   location: LocationConfig;
   fieldSizeAcres: number;
   demoMode: boolean;
+  apiKey: string; // Added for custom API Key override
 }
 
 export interface SensorData {

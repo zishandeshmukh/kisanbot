@@ -1,5 +1,5 @@
 {
-  "name": "best kisan",
+  "name": "final kisanbot",
   "description": "A remote control interface for the KisanBot agricultural robot. Features live video streaming, directional controls, and AI-powered plant disease diagnosis using Google Gemini 2.5 Flash.",
   "requestFramePermissions": [
     "microphone"

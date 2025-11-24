@@ -1,5 +1,4 @@
 
-
 import { GoogleGenAI, Type } from "@google/genai";
 import { AnalysisResult, SensorData, Language } from "../types";
 
@@ -36,13 +35,14 @@ export const analyzePlantImage = async (
   sensorData: SensorData,
   language: Language,
   plantType: string,
-  plantAge: string
+  plantAge: string,
+  apiKey?: string
 ): Promise<AnalysisResult> => {
-  // Use process.env.API_KEY directly
-  const apiKey = process.env.API_KEY;
-  if (!apiKey) throw new Error("API Key is missing from environment variables.");
+  // Prioritize the key passed from settings, fall back to env
+  const key = apiKey || process.env.API_KEY;
+  if (!key) throw new Error("API Key is missing. Please add it in Settings or .env file.");
 
-  const ai = new GoogleGenAI({ apiKey });
+  const ai = new GoogleGenAI({ apiKey: key });
   const langName = getLanguageName(language);
 
   const prompt = `
@@ -101,13 +101,13 @@ export const chatWithAgriBot = async (
   userText: string,
   language: Language,
   sensorData: SensorData,
-  lastAnalysis: AnalysisResult | null
+  lastAnalysis: AnalysisResult | null,
+  apiKey?: string
 ): Promise<string> => {
-  // Use process.env.API_KEY directly
-  const apiKey = process.env.API_KEY;
-  if (!apiKey) throw new Error("API Key missing from environment variables");
+  const key = apiKey || process.env.API_KEY;
+  if (!key) throw new Error("API Key is missing. Please add it in Settings or .env file.");
 
-  const ai = new GoogleGenAI({ apiKey });
+  const ai = new GoogleGenAI({ apiKey: key });
   
   // Structured and readable sensor context for the AI
   let context = `

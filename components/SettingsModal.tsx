@@ -1,5 +1,4 @@
 
-
 import React, { useState } from 'react';
 import { AppSettings } from '../types';
 import { getCoordinatesFromAddress } from '../services/weatherService';
@@ -15,6 +14,13 @@ interface Props {
 const COMMON_CROPS = [
   "Wheat (Gehu)", "Rice (Paddy)", "Tomato", "Potato", "Cotton", "Sugarcane", "Maize", "Chilli", "Onion", "General/Other"
 ];
+
+const InputGroup = ({ label, children }: { label: string, children: React.ReactNode }) => (
+  <div className="space-y-1.5">
+      <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide ml-1">{label}</label>
+      {children}
+  </div>
+);
 
 export const SettingsModal: React.FC<Props> = ({ settings, onSave, isOpen, onClose, t }) => {
   const [localSettings, setLocalSettings] = useState(settings);
@@ -81,13 +87,6 @@ export const SettingsModal: React.FC<Props> = ({ settings, onSave, isOpen, onClo
       }
   };
 
-  const InputGroup = ({ label, children }: { label: string, children: React.ReactNode }) => (
-    <div className="space-y-1.5">
-        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide ml-1">{label}</label>
-        {children}
-    </div>
-  );
-
   if (!isOpen) return null;
 
   return (
@@ -107,7 +106,21 @@ export const SettingsModal: React.FC<Props> = ({ settings, onSave, isOpen, onClo
         
         <div className="flex-1 overflow-y-auto p-6 space-y-8 no-scrollbar">
           
-          {/* SECTION 1: ROBOT CONNECTION */}
+          {/* SECTION 1: API KEY (NEW) */}
+          <div className="space-y-4">
+               <h3 className="text-sm font-bold text-gray-800 dark:text-gray-200 border-b border-gray-100 dark:border-gray-800 pb-2">🔑 {t.apiKey}</h3>
+               <InputGroup label="Custom API Key (Overrides .env)">
+                    <input
+                        type="password"
+                        value={localSettings.apiKey || ''}
+                        onChange={(e) => setLocalSettings({ ...localSettings, apiKey: e.target.value })}
+                        className="w-full p-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm focus:ring-2 focus:ring-green-500 outline-none dark:text-white transition-all font-mono"
+                        placeholder={process.env.API_KEY ? "Using default from .env (AIza...)" : "Paste key here (AIza...)"}
+                    />
+               </InputGroup>
+          </div>
+
+          {/* SECTION 2: ROBOT CONNECTION */}
           <div className="space-y-4">
                <h3 className="text-sm font-bold text-gray-800 dark:text-gray-200 border-b border-gray-100 dark:border-gray-800 pb-2">📡 {t.robotConnection}</h3>
                
@@ -152,7 +165,7 @@ export const SettingsModal: React.FC<Props> = ({ settings, onSave, isOpen, onClo
                </div>
           </div>
 
-          {/* SECTION 2: FARM & WEATHER */}
+          {/* SECTION 3: FARM & WEATHER */}
           <div className="space-y-4">
               <h3 className="text-sm font-bold text-gray-800 dark:text-gray-200 border-b border-gray-100 dark:border-gray-800 pb-2">🌦️ {t.farmLocation}</h3>
               
@@ -218,7 +231,7 @@ export const SettingsModal: React.FC<Props> = ({ settings, onSave, isOpen, onClo
               </div>
           </div>
 
-          {/* SECTION 3: CROP PROFILE */}
+          {/* SECTION 4: CROP PROFILE */}
           <div className="space-y-4">
               <h3 className="text-sm font-bold text-gray-800 dark:text-gray-200 border-b border-gray-100 dark:border-gray-800 pb-2">🌱 {t.cropProfile}</h3>
               
@@ -233,7 +246,7 @@ export const SettingsModal: React.FC<Props> = ({ settings, onSave, isOpen, onClo
               </InputGroup>
           </div>
           
-           {/* SECTION 4: APPEARANCE */}
+           {/* SECTION 5: APPEARANCE */}
            <div className="space-y-4 pb-4">
               <h3 className="text-sm font-bold text-gray-800 dark:text-gray-200 border-b border-gray-100 dark:border-gray-800 pb-2">🎨 {t.appearance}</h3>
                <div className="flex bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
