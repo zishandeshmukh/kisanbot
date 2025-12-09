@@ -480,11 +480,7 @@ export default function App() {
                                     </div>
                                     <div className="flex gap-3">
                                         <button onClick={() => setPendingImage(null)} className="flex-1 py-3 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-xl font-bold">{t.discard}</button>
-<<<<<<< HEAD
                                         <button onClick={() => triggerAnalysis()} className="flex-[2] py-3 bg-green-600 text-white rounded-xl font-bold shadow-lg hover:bg-green-700">✨ {t.analyzeBtn}</button>
-=======
-                                        <button onClick={triggerAnalysis} className="flex-[2] py-3 bg-green-600 text-white rounded-xl font-bold shadow-lg hover:bg-green-700">✨ {t.analyzeBtn}</button>
->>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
                                     </div>
                                 </div>
                             )}
@@ -499,7 +495,6 @@ export default function App() {
                                     {analysisResult.imageUrl && <div className="w-24 h-24 shrink-0 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-sm"><img src={analysisResult.imageUrl} alt="Crop" className="w-full h-full object-cover" /></div>}
                                     <div className="flex-1">
                                          <h4 className={`text-xl font-black ${analysisResult.isHealthy ? 'text-green-600' : 'text-red-600'}`}>{analysisResult.diseaseName}</h4>
-<<<<<<< HEAD
                                          <div className="mt-2 text-sm text-gray-700 dark:text-gray-200">
                                             <p className="font-medium mb-1">Diagnosis / Advice:</p>
                                             <div className="p-2 bg-gray-50 dark:bg-gray-700/30 rounded-lg border border-gray-100 dark:border-gray-700 mb-2">
@@ -520,9 +515,6 @@ export default function App() {
                                                 Close
                                             </button>
                                          </div>
-=======
-                                         <div className="mt-2 p-2 bg-gray-50 dark:bg-gray-700/30 rounded-lg border border-gray-100 dark:border-gray-700"><p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 font-serif">{analysisResult.hindiAdvice}</p></div>
->>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
                                     </div>
                                  </div>
                             ) : null}
@@ -532,7 +524,6 @@ export default function App() {
                                         <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                                     </div>
                                     <p className="text-gray-500 dark:text-gray-400 font-medium text-sm">{t.noImage}</p>
-<<<<<<< HEAD
                                     
                                     <div className="flex items-center justify-center gap-4 mt-4">
                                         {/* Live Patrol Button */}
@@ -584,9 +575,6 @@ export default function App() {
                                             capture="environment"
                                         />
                                     </div>
-=======
-                                    <button onClick={() => setActiveTab('patrol')} className="mt-3 text-green-600 font-bold text-sm hover:underline">{t.livePatrol} &rarr;</button>
->>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
                                 </div>
                             )}
                          </div>
