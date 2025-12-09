@@ -1,11 +1,5 @@
-<<<<<<< HEAD
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 // RobotControls import removed as it is no longer used
-=======
-
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { RobotControls } from './components/RobotControls';
->>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
 import { VideoFeed } from './components/VideoFeed';
 import { AnalysisResultModal } from './components/AnalysisResultModal';
 import { SettingsModal } from './components/SettingsModal';
