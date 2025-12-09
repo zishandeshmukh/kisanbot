@@ -79,7 +79,6 @@ export default function App() {
   const defenseInterval = useRef<ReturnType<typeof setInterval> | null>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
 
-<<<<<<< HEAD
   // --- FILE UPLOAD REFS & HANDLERS ---
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
@@ -100,9 +99,6 @@ export default function App() {
       reader.readAsDataURL(file);
     }
   };
-
-=======
->>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
   useEffect(() => {
     offlineQueueRef.current = offlineQueue;
   }, [offlineQueue]);
