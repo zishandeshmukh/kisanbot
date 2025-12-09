@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 // RobotControls import removed as it is no longer used
+=======
+
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { RobotControls } from './components/RobotControls';
+>>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
 import { VideoFeed } from './components/VideoFeed';
 import { AnalysisResultModal } from './components/AnalysisResultModal';
 import { SettingsModal } from './components/SettingsModal';
@@ -79,6 +85,7 @@ export default function App() {
   const defenseInterval = useRef<ReturnType<typeof setInterval> | null>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
 
+<<<<<<< HEAD
   // --- FILE UPLOAD REFS & HANDLERS ---
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
@@ -100,6 +107,8 @@ export default function App() {
     }
   };
 
+=======
+>>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
   useEffect(() => {
     offlineQueueRef.current = offlineQueue;
   }, [offlineQueue]);
@@ -328,11 +337,16 @@ export default function App() {
       setPendingImage(base64Image);
       setStatus(t.imageCaptured);
       if (navigator.vibrate) navigator.vibrate(100);
+<<<<<<< HEAD
       
       // Auto-trigger analysis and switch to dashboard to show results
       triggerAnalysis(base64Image);
       setActiveTab('dashboard');
 
+=======
+      setTimeout(() => setStatus("✅ " + t.systemReady), 3000);
+      
+>>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
       if (isAutoPatrol) {
           addDiaryEntry({
               type: 'note',
@@ -343,26 +357,39 @@ export default function App() {
       }
   };
 
+<<<<<<< HEAD
   const triggerAnalysis = async (imageArg?: string) => {
     const imageToAnalyze = imageArg || pendingImage;
     if (!imageToAnalyze) return;
     
     // If called with an argument, ensure state is synced
     if (imageArg) setPendingImage(imageArg);
+=======
+  const triggerAnalysis = async () => {
+    if (!pendingImage) return;
+>>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
     
     setStatus("🤖 " + t.analyzing); 
     setIsAnalyzing(true);
     try {
       // Pass optional settings.apiKey
       const result = await analyzePlantImage(
+<<<<<<< HEAD
           imageToAnalyze, 
+=======
+          pendingImage, 
+>>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
           sensorData, 
           language, 
           settings.plantType || 'Unknown', 
           settings.plantAge || 'Unknown',
           settings.apiKey
       );
+<<<<<<< HEAD
       const resultWithTime = { ...result, timestamp: Date.now(), imageUrl: `data:image/jpeg;base64,${imageToAnalyze}` };
+=======
+      const resultWithTime = { ...result, timestamp: Date.now(), imageUrl: `data:image/jpeg;base64,${pendingImage}` };
+>>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
       setAnalysisResult(resultWithTime);
       localStorage.setItem('kisanBotLastReport', JSON.stringify(resultWithTime));
       
@@ -371,16 +398,27 @@ export default function App() {
           type: 'disease',
           title: result.diseaseName,
           description: result.hindiAdvice,
+<<<<<<< HEAD
           image: imageToAnalyze
       });
 
       setStatus("✅ Complete");
       // Keep pendingImage set so we show the result view with the image
+=======
+          image: pendingImage
+      });
+
+      setStatus("✅ Complete");
+      setPendingImage(null); 
+>>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
     } catch (error) { 
         setStatus("❌ Failed"); 
         alert("Analysis failed. Please check your API Key in Settings.");
         console.error(error);
+<<<<<<< HEAD
         setPendingImage(null); // Reset on failure
+=======
+>>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
     } finally { 
         setIsAnalyzing(false); 
     }
@@ -390,6 +428,7 @@ export default function App() {
       switch (activeTab) {
           case 'patrol':
               return (
+<<<<<<< HEAD
                   <div className="flex flex-col h-full bg-black animate-fade-in relative overflow-hidden">
                       {/* Video Container set to flex-1 to take full available height */}
                       <div className="flex-1 w-full flex flex-col justify-center overflow-hidden z-10 relative">
@@ -403,6 +442,17 @@ export default function App() {
                          />
                       </div>
                       {/* RobotControls component removed to hide the interface */}
+=======
+                  <div className="flex flex-col h-full bg-slate-900 animate-fade-in relative overflow-hidden">
+                      <div className="relative w-full flex-shrink-0 bg-black flex flex-col justify-center overflow-hidden border-b border-gray-800 shadow-xl z-10" style={{ height: '35%' }}>
+                         <VideoFeed streamUrl={settings.streamUrl} onCapture={handleCapture} onCaptureStart={() => { setStatus("📸 Capturing..."); }} isAnalyzing={isAnalyzing} triggerCapture={captureTrigger} demoMode={settings.demoMode} />
+                      </div>
+                      <div className="flex-1 w-full bg-slate-50 dark:bg-slate-900 relative flex flex-col z-0">
+                          <div className="flex-1 w-full flex items-center justify-center p-4 pb-32"> 
+                              <RobotControls onCommand={sendRobotCommand} statusText={status} isObstacleDetected={sensorData.obstacleDetected} isLightOn={isLightOn} />
+                          </div>
+                      </div>
+>>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
                   </div>
               );
           case 'market':
@@ -424,7 +474,11 @@ export default function App() {
                              </button>
                          </div>
                          <div className="p-5">
+<<<<<<< HEAD
                             {pendingImage && !isAnalyzing && !analysisResult && (
+=======
+                            {pendingImage && !isAnalyzing && (
+>>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
                                 <div className="mb-4">
                                     <div className="relative rounded-xl overflow-hidden shadow-md mb-3 border border-gray-200 dark:border-gray-600">
                                         <img src={`data:image/jpeg;base64,${pendingImage}`} alt="Captured" className="w-full h-48 object-cover" />
@@ -432,7 +486,11 @@ export default function App() {
                                     </div>
                                     <div className="flex gap-3">
                                         <button onClick={() => setPendingImage(null)} className="flex-1 py-3 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-xl font-bold">{t.discard}</button>
+<<<<<<< HEAD
                                         <button onClick={() => triggerAnalysis()} className="flex-[2] py-3 bg-green-600 text-white rounded-xl font-bold shadow-lg hover:bg-green-700">✨ {t.analyzeBtn}</button>
+=======
+                                        <button onClick={triggerAnalysis} className="flex-[2] py-3 bg-green-600 text-white rounded-xl font-bold shadow-lg hover:bg-green-700">✨ {t.analyzeBtn}</button>
+>>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
                                     </div>
                                 </div>
                             )}
@@ -447,6 +505,7 @@ export default function App() {
                                     {analysisResult.imageUrl && <div className="w-24 h-24 shrink-0 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-sm"><img src={analysisResult.imageUrl} alt="Crop" className="w-full h-full object-cover" /></div>}
                                     <div className="flex-1">
                                          <h4 className={`text-xl font-black ${analysisResult.isHealthy ? 'text-green-600' : 'text-red-600'}`}>{analysisResult.diseaseName}</h4>
+<<<<<<< HEAD
                                          <div className="mt-2 text-sm text-gray-700 dark:text-gray-200">
                                             <p className="font-medium mb-1">Diagnosis / Advice:</p>
                                             <div className="p-2 bg-gray-50 dark:bg-gray-700/30 rounded-lg border border-gray-100 dark:border-gray-700 mb-2">
@@ -467,6 +526,9 @@ export default function App() {
                                                 Close
                                             </button>
                                          </div>
+=======
+                                         <div className="mt-2 p-2 bg-gray-50 dark:bg-gray-700/30 rounded-lg border border-gray-100 dark:border-gray-700"><p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 font-serif">{analysisResult.hindiAdvice}</p></div>
+>>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
                                     </div>
                                  </div>
                             ) : null}
@@ -476,6 +538,7 @@ export default function App() {
                                         <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                                     </div>
                                     <p className="text-gray-500 dark:text-gray-400 font-medium text-sm">{t.noImage}</p>
+<<<<<<< HEAD
                                     
                                     <div className="flex items-center justify-center gap-4 mt-4">
                                         {/* Live Patrol Button */}
@@ -527,6 +590,9 @@ export default function App() {
                                             capture="environment"
                                         />
                                     </div>
+=======
+                                    <button onClick={() => setActiveTab('patrol')} className="mt-3 text-green-600 font-bold text-sm hover:underline">{t.livePatrol} &rarr;</button>
+>>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
                                 </div>
                             )}
                          </div>
@@ -559,6 +625,7 @@ export default function App() {
 
       {/* Navigation Bar */}
       <div className="absolute bottom-0 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-gray-200 dark:border-gray-800 safe-bottom z-50 shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
+          <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-[10px] text-gray-300 dark:text-gray-600 bg-white dark:bg-slate-900 px-2 rounded-full border border-gray-100 dark:border-gray-800 shadow-sm">v2.0</div>
           <div className="flex justify-around items-center max-w-lg mx-auto h-[70px] pb-2 relative px-2">
               <button onClick={() => setActiveTab('dashboard')} className={`flex-1 flex flex-col items-center gap-1 ${activeTab === 'dashboard' ? 'text-green-600' : 'text-gray-400'}`}>
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill={activeTab === 'dashboard' ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
@@ -609,4 +676,8 @@ function AnalysisResultModalWrapper({ result, onClose }: { result: AnalysisResul
     useEffect(() => { if (result?.timestamp && result.timestamp !== lastTimestamp) { setIsOpen(true); setLastTimestamp(result.timestamp); } }, [result, lastTimestamp]);
     if (!isOpen || !result) return null;
     return <AnalysisResultModal result={result} onClose={() => { setIsOpen(false); onClose(); }} />;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa

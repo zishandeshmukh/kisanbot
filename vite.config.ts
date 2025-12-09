@@ -1,6 +1,9 @@
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
+<<<<<<< HEAD
 import { VitePWA } from 'vite-plugin-pwa'
+=======
+>>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -9,6 +12,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, (process as any).cwd(), '');
 
   return {
+<<<<<<< HEAD
     plugins: [
       react(),
       VitePWA({
@@ -33,6 +37,9 @@ export default defineConfig(({ mode }) => {
         }
       })
     ],
+=======
+    plugins: [react()],
+>>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
     define: {
       // Expose API_KEY to the client. We check for both API_KEY and GEMINI_API_KEY.
       'process.env.API_KEY': JSON.stringify(env.API_KEY || env.GEMINI_API_KEY),
