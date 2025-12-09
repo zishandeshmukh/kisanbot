@@ -331,16 +331,10 @@ export default function App() {
       setPendingImage(base64Image);
       setStatus(t.imageCaptured);
       if (navigator.vibrate) navigator.vibrate(100);
-<<<<<<< HEAD
       
       // Auto-trigger analysis and switch to dashboard to show results
       triggerAnalysis(base64Image);
       setActiveTab('dashboard');
-
-=======
-      setTimeout(() => setStatus("✅ " + t.systemReady), 3000);
-      
->>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
       if (isAutoPatrol) {
           addDiaryEntry({
               type: 'note',
@@ -351,39 +345,26 @@ export default function App() {
       }
   };
 
-<<<<<<< HEAD
   const triggerAnalysis = async (imageArg?: string) => {
     const imageToAnalyze = imageArg || pendingImage;
     if (!imageToAnalyze) return;
     
     // If called with an argument, ensure state is synced
     if (imageArg) setPendingImage(imageArg);
-=======
-  const triggerAnalysis = async () => {
-    if (!pendingImage) return;
->>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
     
     setStatus("🤖 " + t.analyzing); 
     setIsAnalyzing(true);
     try {
       // Pass optional settings.apiKey
       const result = await analyzePlantImage(
-<<<<<<< HEAD
           imageToAnalyze, 
-=======
-          pendingImage, 
->>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
           sensorData, 
           language, 
           settings.plantType || 'Unknown', 
           settings.plantAge || 'Unknown',
           settings.apiKey
       );
-<<<<<<< HEAD
       const resultWithTime = { ...result, timestamp: Date.now(), imageUrl: `data:image/jpeg;base64,${imageToAnalyze}` };
-=======
-      const resultWithTime = { ...result, timestamp: Date.now(), imageUrl: `data:image/jpeg;base64,${pendingImage}` };
->>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
       setAnalysisResult(resultWithTime);
       localStorage.setItem('kisanBotLastReport', JSON.stringify(resultWithTime));
       
@@ -392,27 +373,16 @@ export default function App() {
           type: 'disease',
           title: result.diseaseName,
           description: result.hindiAdvice,
-<<<<<<< HEAD
           image: imageToAnalyze
       });
 
       setStatus("✅ Complete");
       // Keep pendingImage set so we show the result view with the image
-=======
-          image: pendingImage
-      });
-
-      setStatus("✅ Complete");
-      setPendingImage(null); 
->>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
     } catch (error) { 
         setStatus("❌ Failed"); 
         alert("Analysis failed. Please check your API Key in Settings.");
         console.error(error);
-<<<<<<< HEAD
         setPendingImage(null); // Reset on failure
-=======
->>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
     } finally { 
         setIsAnalyzing(false); 
     }
@@ -422,7 +392,6 @@ export default function App() {
       switch (activeTab) {
           case 'patrol':
               return (
-<<<<<<< HEAD
                   <div className="flex flex-col h-full bg-black animate-fade-in relative overflow-hidden">
                       {/* Video Container set to flex-1 to take full available height */}
                       <div className="flex-1 w-full flex flex-col justify-center overflow-hidden z-10 relative">
@@ -436,17 +405,6 @@ export default function App() {
                          />
                       </div>
                       {/* RobotControls component removed to hide the interface */}
-=======
-                  <div className="flex flex-col h-full bg-slate-900 animate-fade-in relative overflow-hidden">
-                      <div className="relative w-full flex-shrink-0 bg-black flex flex-col justify-center overflow-hidden border-b border-gray-800 shadow-xl z-10" style={{ height: '35%' }}>
-                         <VideoFeed streamUrl={settings.streamUrl} onCapture={handleCapture} onCaptureStart={() => { setStatus("📸 Capturing..."); }} isAnalyzing={isAnalyzing} triggerCapture={captureTrigger} demoMode={settings.demoMode} />
-                      </div>
-                      <div className="flex-1 w-full bg-slate-50 dark:bg-slate-900 relative flex flex-col z-0">
-                          <div className="flex-1 w-full flex items-center justify-center p-4 pb-32"> 
-                              <RobotControls onCommand={sendRobotCommand} statusText={status} isObstacleDetected={sensorData.obstacleDetected} isLightOn={isLightOn} />
-                          </div>
-                      </div>
->>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
                   </div>
               );
           case 'market':
@@ -468,11 +426,7 @@ export default function App() {
                              </button>
                          </div>
                          <div className="p-5">
-<<<<<<< HEAD
                             {pendingImage && !isAnalyzing && !analysisResult && (
-=======
-                            {pendingImage && !isAnalyzing && (
->>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
                                 <div className="mb-4">
                                     <div className="relative rounded-xl overflow-hidden shadow-md mb-3 border border-gray-200 dark:border-gray-600">
                                         <img src={`data:image/jpeg;base64,${pendingImage}`} alt="Captured" className="w-full h-48 object-cover" />
@@ -658,8 +612,4 @@ function AnalysisResultModalWrapper({ result, onClose }: { result: AnalysisResul
     useEffect(() => { if (result?.timestamp && result.timestamp !== lastTimestamp) { setIsOpen(true); setLastTimestamp(result.timestamp); } }, [result, lastTimestamp]);
     if (!isOpen || !result) return null;
     return <AnalysisResultModal result={result} onClose={() => { setIsOpen(false); onClose(); }} />;
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
