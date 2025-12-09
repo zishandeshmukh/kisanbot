@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # KisanBot - AI Agriculture Assistant
 
 KisanBot is a smart, AI-powered agriculture assistant that helps farmers analyze plant diseases, monitor field conditions, and get real-time advice.
@@ -20,17 +19,3 @@ The easiest way to deploy this app is to click the button below:
 2.  **Configure**: Create a `.env` file and add `API_KEY=your_gemini_key`.
 3.  **Run**: `npm run dev`
 4.  **Mobile Access**: `npm run dev -- --host`
-=======
-
-
-## Run Locally
-
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
->>>>>>> 5fc062c51a3af11bd81c504d1c75f444d2f4beaa
